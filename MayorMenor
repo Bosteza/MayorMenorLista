@@ -1,0 +1,129 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+int findMin(int lista[], int l) {
+    int min= 10000000;
+    int index = -1;
+
+    for (int i = 0; i < l; i++) {
+        if (lista[i] < min) {
+            min= lista[i];
+            index = i;
+        }
+    }
+
+    return index;
+}
+
+int findMax(int lista[], int l) {
+    int max= -10000000;
+    int index = -1;
+
+    for (int i = 0; i < l; i++) {
+        if (lista[i] > max) {
+            max= lista[i];
+            index = i;
+        }
+    }
+
+    return index;
+}
+
+void quicksort(int lista[], int primero, int ultimo) {
+    int pivot, i, j, temp;
+    if (primero < ultimo) {
+        pivot = primero;
+        i = primero;
+        j = ultimo;
+        while (i < j) {
+            while (lista[i] <= lista[pivot] && i <= ultimo) {
+                i++;
+            }
+            while (lista[j] > lista[pivot] && j >= primero) {
+                j--;
+            }
+            if (i < j) {
+                temp = lista[i];
+                lista[i] = lista[j];
+                lista[j] = temp;
+            }
+        }
+        temp = lista[j];
+        lista[j] = lista[pivot];
+        lista[pivot] = temp;
+        quicksort(lista, primero, j - 1);
+        quicksort(lista, j + 1, ultimo);
+    }
+}
+
+int main() {
+    int n, i;
+    srand(time(NULL));
+    printf("Numero de elementos a ordenar: ");
+    scanf("%d", &n);
+    int lista[n];
+
+    for (i = 0; i < n; i++)
+        lista[i] = rand()%30+1;
+    printf("Lista sin ordenar:\n");
+    for (i = 0; i < n; i++)
+        printf("%d ", lista[i]);
+    printf("\n");
+
+    quicksort(lista, 0, n - 1);
+
+    printf("Lista ordenada:\n");
+    for (i = 0; i < n; i++)
+        printf("%d ", lista[i]);
+
+    int min_value= findMin(lista, n);
+    printf("\nValor min: %d\n", lista[min_value], min_value);
+
+    int max_value= findMax(lista, n);
+    printf("Valor max: %d\n", lista[max_value], max_value);
+    
+   
+    float sum = 0;
+
+    for (int i = 0; i < n; i++) {
+        sum += lista[i];
+    }
+
+    float media = (float)sum / n;
+
+    printf("Media: %.1f\n", media);
+    
+    float mediana;
+    if (n % 2 == 0) {
+        mediana = (lista[n / 2 - 1] + lista[n / 2]) / 2.0;
+    } else {
+        mediana = lista[n / 2];
+    }
+
+    printf("Mediana: %.1f\n", mediana);
+    
+    int moda=0;
+    int maxF= 0;
+
+    for (int i=0;i<n;i++){
+    	
+        int frecuencia=0; 
+        
+
+        for (int j=0;j<n;j++){
+            if (lista[i]==lista[j]) {
+                frecuencia++;
+            }
+        }
+        
+        if (frecuencia>maxF) {
+            maxF=frecuencia;
+            moda=lista[i];
+            printf("Moda: %d\n", moda);
+        }
+
+    }
+
+    return 0;
+}
