@@ -120,10 +120,9 @@ int main() {
         if (frecuencia>maxF) {
             maxF=frecuencia;
             moda=lista[i];
-            printf("Moda: %d\n", moda);
         }
-
     }
+    printf("Moda: %d\n", moda);
 
     return 0;
 }
